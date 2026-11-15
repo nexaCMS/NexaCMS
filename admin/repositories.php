@@ -130,6 +130,7 @@ $repos = nexa_repositories();
 $selIdx = isset($_GET['repo']) ? (int) $_GET['repo'] : (count($repos) ? 0 : -1);
 if ($selIdx >= count($repos)) $selIdx = count($repos) - 1;
 $filter = in_array($_GET['f'] ?? '', ['plugin', 'theme'], true) ? (string) $_GET['f'] : 'all';
+$query = trim((string) ($_GET['q'] ?? ''));
 $fetched = null;
 if ($selIdx >= 0 && isset($repos[$selIdx])) $fetched = nexa_repo_fetch($repos[$selIdx]);
 
@@ -191,13 +192,30 @@ include_once __DIR__ . '/includes/header.php';
           <div class="alert alert-danger"><?= esc_html($fetched['error']) ?></div>
         <?php elseif ($fetched): ?>
           <div style="margin-bottom:10px;">
-            <a class="btn btn-xs <?= $filter === 'all' ? 'btn-primary' : 'btn-default' ?>" href="repositories.php?repo=<?= $selIdx ?>">All</a>
-            <a class="btn btn-xs <?= $filter === 'plugin' ? 'btn-primary' : 'btn-default' ?>" href="repositories.php?repo=<?= $selIdx ?>&f=plugin">Plugins</a>
-            <a class="btn btn-xs <?= $filter === 'theme' ? 'btn-primary' : 'btn-default' ?>" href="repositories.php?repo=<?= $selIdx ?>&f=theme">Themes</a>
+            <?php $fqs = $query !== '' ? '&amp;q=' . urlencode($query) : ''; ?>
+            <a class="btn btn-xs <?= $filter === 'all' ? 'btn-primary' : 'btn-default' ?>" href="repositories.php?repo=<?= $selIdx ?><?= $fqs ?>">All</a>
+            <a class="btn btn-xs <?= $filter === 'plugin' ? 'btn-primary' : 'btn-default' ?>" href="repositories.php?repo=<?= $selIdx ?>&f=plugin<?= $fqs ?>">Plugins</a>
+            <a class="btn btn-xs <?= $filter === 'theme' ? 'btn-primary' : 'btn-default' ?>" href="repositories.php?repo=<?= $selIdx ?>&f=theme<?= $fqs ?>">Themes</a>
             <span class="text-muted" style="margin-left:8px;"><?= count($fetched['packages']) ?> package(s) in this repository</span>
           </div>
-          <?php $shown = 0; foreach ($fetched['packages'] as $p): if ($filter !== 'all' && $p['type'] !== $filter) continue; $shown++; $installed = nexa_repo_installed_version($p['type'], $p['slug']); $isUpdate = $installed !== null && $p['version'] !== '' && version_compare($p['version'], $installed, '>'); ?>
-            <div style="border:1px solid #e5e7eb;border-radius:8px;padding:10px;margin-bottom:8px;">
+          <form method="get" style="margin-bottom:10px;">
+            <input type="hidden" name="repo" value="<?= $selIdx ?>"><?php if ($filter !== 'all'): ?><input type="hidden" name="f" value="<?= esc_attr($filter) ?>"><?php endif; ?>
+            <div class="input-group">
+              <input type="text" name="q" class="form-control" placeholder="Search plugins and themes by name, keyword, author..." value="<?= esc_attr($query) ?>">
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> Search</button>
+                <?php if ($query !== ''): ?><a class="btn btn-default" href="repositories.php?repo=<?= $selIdx ?><?= $filter !== 'all' ? '&amp;f=' . esc_attr($filter) : '' ?>">Clear</a><?php endif; ?>
+              </span>
+            </div>
+          </form>
+          <?php $shown = 0; foreach ($fetched['packages'] as $p): if ($filter !== 'all' && $p['type'] !== $filter) continue; if ($query !== '' && stripos($p['name'] . ' ' . $p['slug'] . ' ' . $p['author'] . ' ' . $p['description'], $query) === false) continue; $shown++; $installed = nexa_repo_installed_version($p['type'], $p['slug']); $isUpdate = $installed !== null && $p['version'] !== '' && version_compare($p['version'], $installed, '>'); ?>
+            <div style="border:1px solid #e5e7eb;border-radius:8px;padding:10px;margin-bottom:8px;display:flex;gap:12px;">
+              <?php if (!empty($p['thumbnail'])): ?>
+                <img src="<?= esc_url($p['thumbnail']) ?>" alt="" loading="lazy" onerror="this.style.display='none'" style="<?= $p['type'] === 'theme' ? 'width:128px;height:96px;' : 'width:64px;height:64px;' ?>object-fit:cover;border-radius:6px;border:1px solid #e5e7eb;flex:none;background:#f3f4f6;">
+              <?php else: ?>
+                <div style="<?= $p['type'] === 'theme' ? 'width:128px;height:96px;font-size:30px;' : 'width:64px;height:64px;font-size:22px;' ?>border-radius:6px;flex:none;background:#eef2ff;color:#4f46e5;display:flex;align-items:center;justify-content:center;font-weight:bold;"><?= esc_html(strtoupper(substr($p['name'], 0, 1))) ?></div>
+              <?php endif; ?>
+              <div style="flex:1;min-width:0;">
               <span class="label label-<?= $p['type'] === 'plugin' ? 'info' : 'primary' ?>"><?= esc_html($p['type']) ?></span>
               <strong><?= esc_html($p['name']) ?></strong> <?php if ($p['version'] !== ''): ?>v<?= esc_html($p['version']) ?><?php endif; ?>
               <?php if ($p['author'] !== ''): ?><span class="text-muted">by <?= esc_html($p['author']) ?></span><?php endif; ?>
@@ -210,9 +228,10 @@ include_once __DIR__ . '/includes/header.php';
                 <input type="hidden" name="pkg_type" value="<?= esc_attr($p['type']) ?>"><input type="hidden" name="pkg_slug" value="<?= esc_attr($p['slug']) ?>">
                 <button class="btn btn-sm <?= $isUpdate ? 'btn-warning' : 'btn-primary' ?>" <?= ($msSite && $msPolicy === 'deny') ? 'disabled' : '' ?>><i class="fa fa-download"></i> <?= $installed === null ? 'Install' : ($isUpdate ? 'Update to v' . esc_html($p['version']) : 'Reinstall') ?></button>
               </form>
+              </div>
             </div>
           <?php endforeach; ?>
-          <?php if (!$shown): ?><p class="text-muted">No packages match this filter.</p><?php endif; ?>
+          <?php if (!$shown): ?><p class="text-muted">No packages match<?= $query !== '' ? ' your search for &ldquo;' . esc_html($query) . '&rdquo;' : ' this filter' ?>.</p><?php endif; ?>
         <?php endif; ?>
       </div></div>
     </div>

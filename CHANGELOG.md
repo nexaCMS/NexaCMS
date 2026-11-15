@@ -4,6 +4,21 @@ All notable changes to NexaCMS. Versions follow the in-product version
 (`includes/version.php`); update packages state their base version in
 `update.json`.
 
+## 1.33.3 - Repository search & package thumbnails
+
+- **Repositories page:** search box filtering packages by name, slug,
+  author and description (combines with the Plugins/Themes tabs), and
+  package thumbnails - themes show a wide shot, plugins a square icon,
+  with a graceful initial-letter fallback when a repo provides none.
+- **Protocol:** repo indexes may carry an optional `thumbnail`
+  (aliases `icon`/`screenshot`) per package, absolute or relative to
+  the index; only http(s) URLs are rendered.
+- **Repository Hub 1.1.0:** publishes a `thumbnail` for any package
+  folder containing a screenshot/thumbnail/icon/preview image and
+  serves it at `?nexa_repo=thumb&type=..&slug=..` (published packages
+  only).
+- Official catalog: generated thumbnails for all 45 packages.
+
 ## 1.33.2 - Database switch fix + upload overwrite warning
 
 - **Fixed:** Database Engine page - "Snapshot Active DB to CSV",

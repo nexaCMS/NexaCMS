@@ -34,7 +34,7 @@ require $root . '/includes/version.php';
 $version = defined('NEXACMS_VERSION') ? NEXACMS_VERSION : '1.0.0';
 $dist = $root . '/dist';
 @mkdir($dist, 0755, true);
-$notes = 'NexaCMS ' . $version . ': Database Engine fix (Snapshot to CSV / Import CSV / driver switching failed with a TypeError on file-based and SQL drivers alike - the migrator now accepts all-tables/default-dir) and an upload overwrite warning: installing a plugin/theme zip that is already installed now shows installed vs uploaded versions and asks before replacing anything.';
+$notes = 'NexaCMS ' . $version . ': Repository search and package thumbnails. The Plugins > Repositories browser gains a keyword search (name/slug/author/description, combinable with the Plugins/Themes tabs) and artwork for every package - the repo index supports an optional thumbnail/icon/screenshot URL, Repository Hub 1.1.0 serves package images, and the official catalog ships thumbnails for all 45 packages.';
 
 $excluded = static function (string $rel): bool {
     $rel = str_replace('\\', '/', $rel);

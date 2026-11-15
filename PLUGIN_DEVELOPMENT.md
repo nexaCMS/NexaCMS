@@ -295,7 +295,8 @@ Index format (`nexa-repo.json`):
   "packages": [
     {"type": "plugin", "slug": "nexa-shop", "name": "Nexa Shop",
      "version": "2.1.0", "author": "…", "description": "…",
-     "download_url": "https://…/nexa-shop.zip", "sha256": "optional-hex"}
+     "download_url": "https://…/nexa-shop.zip", "sha256": "optional-hex",
+     "thumbnail": "https://…/nexa-shop.png (optional; also \"icon\"/\"screenshot\")"}
   ]
 }
 ```

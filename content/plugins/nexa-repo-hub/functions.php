@@ -55,10 +55,35 @@ function nexa_repohub_zip_dir(string $srcDir, string $slug): ?string {
     return is_file($zipPath) ? $zipPath : null;
 }
 
+function nexa_repohub_thumb_file(string $dir): ?string {
+    foreach (['screenshot.png', 'screenshot.jpg', 'screenshot.jpeg', 'screenshot.webp', 'thumbnail.png', 'thumbnail.jpg', 'thumbnail.jpeg', 'icon.png', 'icon.jpg', 'preview.png', 'preview.jpg'] as $f) {
+        if (is_file($dir . '/' . $f)) return $dir . '/' . $f;
+    }
+    return null;
+}
+
 function nexa_repohub_serve(): void {
     if (empty($_GET['nexa_repo'])) return;
     $published = nexa_repohub_published();
     $mode = (string) $_GET['nexa_repo'];
+
+    if ($mode === 'thumb') {
+        $type = (string) ($_GET['type'] ?? '');
+        $slug = basename((string) ($_GET['slug'] ?? ''));
+        if (!in_array($type, ['plugin', 'theme'], true) || $slug === '' || !in_array($type . ':' . $slug, $published, true)) {
+            http_response_code(404); echo 'Package not published by this repository.'; exit;
+        }
+        $dir = $type === 'plugin' ? nexa_plugins_dir() . '/' . $slug : nexa_themes_dir() . '/' . $slug;
+        $file = is_dir($dir) ? nexa_repohub_thumb_file($dir) : null;
+        if ($file === null) { http_response_code(404); echo 'No thumbnail for this package.'; exit; }
+        $mime = ['png' => 'image/png', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'webp' => 'image/webp'][strtolower(pathinfo($file, PATHINFO_EXTENSION))] ?? 'application/octet-stream';
+        while (ob_get_level() > 0) @ob_end_clean();
+        header('Content-Type: ' . $mime);
+        header('Content-Length: ' . filesize($file));
+        header('Cache-Control: public, max-age=86400');
+        readfile($file);
+        exit;
+    }
 
     if ($mode === 'download') {
         $type = (string) ($_GET['type'] ?? '');
@@ -84,11 +109,15 @@ function nexa_repohub_serve(): void {
     $packages = [];
     foreach (nexa_repohub_all_packages() as $p) {
         if (!in_array($p['type'] . ':' . $p['slug'], $published, true)) continue;
-        $packages[] = [
+        $entry = [
             'type' => $p['type'], 'slug' => $p['slug'], 'name' => $p['name'],
             'version' => $p['version'], 'author' => $p['author'], 'description' => $p['description'],
             'download_url' => home_url('?nexa_repo=download&type=' . $p['type'] . '&slug=' . urlencode($p['slug'])),
         ];
+        if (nexa_repohub_thumb_file($p['dir']) !== null) {
+            $entry['thumbnail'] = home_url('?nexa_repo=thumb&type=' . $p['type'] . '&slug=' . urlencode($p['slug']));
+        }
+        $packages[] = $entry;
     }
     while (ob_get_level() > 0) @ob_end_clean();
     header('Content-Type: application/json; charset=UTF-8');

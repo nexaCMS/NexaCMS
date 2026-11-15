@@ -4350,7 +4350,8 @@ function nexa_is_network_admin(): bool {
  * indexes. A repository is any URL serving a NexaCMS repo index JSON:
  *   {"name":"My Repo","packages":[{"type":"plugin|theme","slug":"...",
  *     "name":"...","version":"1.0.0","author":"...","description":"...",
- *     "download_url":"https://.../pkg.zip","sha256":"(optional)"}]}
+ *     "download_url":"https://.../pkg.zip","sha256":"(optional)",
+ *     "thumbnail":"https://.../pkg.png (optional)"}]}
  * Sources: a NexaCMS site running the "Nexa Repository Hub" plugin
  * (type "hub": the site's base URL), a GitHub repo holding a
  * nexa-repo.json at its root (type "github": owner/repo + branch), or
@@ -4436,11 +4437,18 @@ function nexa_repo_fetch(array $repo): array {
         if (preg_match('#^https?://#i', $dl)) $dlAbs = $dl;
         elseif (str_starts_with($dl, '/')) $dlAbs = $origin . $dl;
         else $dlAbs = $baseDir . $dl;
+        // Optional package artwork: "thumbnail" (or "icon"/"screenshot")
+        // as an absolute or index-relative URL. http(s) only.
+        $thumb = trim((string) ($p['thumbnail'] ?? $p['icon'] ?? $p['screenshot'] ?? ''));
+        if ($thumb !== '' && !preg_match('#^https?://#i', $thumb)) {
+            $thumb = str_starts_with($thumb, '/') ? $origin . $thumb : $baseDir . $thumb;
+        }
         $packages[] = [
             'type' => $type, 'slug' => $slug,
             'name' => (string) ($p['name'] ?? $slug), 'version' => (string) ($p['version'] ?? ''),
             'author' => (string) ($p['author'] ?? ''), 'description' => (string) ($p['description'] ?? ''),
             'download_url' => $dlAbs, 'sha256' => strtolower(trim((string) ($p['sha256'] ?? ''))),
+            'thumbnail' => $thumb,
         ];
     }
     return ['name' => (string) ($data['name'] ?? ($repo['name'] ?? 'Repository')), 'packages' => $packages, 'error' => ''];

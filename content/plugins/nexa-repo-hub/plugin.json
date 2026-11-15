@@ -1,8 +1,8 @@
 {
   "name": "Nexa Repository Hub — Serve Plugins & Themes",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "NexaCMS",
-  "description": "Turns this NexaCMS site into a package repository: other NexaCMS sites can add this site as a Repository and browse/install the plugins and themes you choose to publish. Serves a repo index JSON and on-the-fly package zips of your shared installed plugins/themes.",
+  "description": "Turns this NexaCMS site into a package repository: other NexaCMS sites can add this site as a Repository and browse/install the plugins and themes you choose to publish. Serves a repo index JSON, on-the-fly package zips and package thumbnails (screenshot/thumbnail/icon files) of your shared installed plugins/themes.",
   "admin_page": "nexa-repo-hub",
   "default_stages": [
     "pre"
