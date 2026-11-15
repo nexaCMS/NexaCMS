@@ -4,6 +4,22 @@ All notable changes to NexaCMS. Versions follow the in-product version
 (`includes/version.php`); update packages state their base version in
 `update.json`.
 
+## 1.33.2 - Database switch fix + upload overwrite warning
+
+- **Fixed:** Database Engine page - "Snapshot Active DB to CSV",
+  "Import CSV", and switching drivers from a non-CSV backend all
+  failed with `di_export_active_db_to_csv(): Argument #1 ($tables)
+  must be of type array, null given`. The migrator now accepts
+  "all tables / default CSV directory" (`?array $tables = null`),
+  and the admin page calls it correctly. Verified on SQLite, JSON
+  and CSV drivers.
+- **Upload overwrite warning:** uploading a plugin/theme zip whose
+  slug is already installed no longer silently overwrites it. The
+  admin sees the installed vs uploaded versions (with an extra
+  caution when the upload is older), and chooses **Replace** or
+  **Cancel**; nothing is written until they confirm. Network-approval
+  installs (pre-reviewed by an admin) are unaffected.
+
 ## 1.33.1 - Official update source & packages store
 
 - **Pre-wired official sources (removable):** fresh installs come with

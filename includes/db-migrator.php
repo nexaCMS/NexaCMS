@@ -25,7 +25,7 @@ function di_resolve_csv_source_dir(?string $csvDir = null): string {
     return $candidate;
 }
 
-function di_migrate_csv_to_active_db(?string $csvDir = null): array {
+function di_migrate_csv_to_active_db(?string $csvDir = null, $legacyFlag = null): array {
     $csvDir = di_resolve_csv_source_dir($csvDir);
     if (!is_dir($csvDir)) {
         return [];
@@ -55,7 +55,15 @@ function di_migrate_csv_to_active_db(?string $csvDir = null): array {
     return $imported;
 }
 
-function di_export_active_db_to_csv(array $tables, string $targetCsvDir): array {
+function di_export_active_db_to_csv(?array $tables = null, $targetCsvDir = null): array {
+    // Tolerates the admin page's shorthand: no table list means "every
+    // table", and a missing/boolean target means the default CSV dir.
+    if (!is_string($targetCsvDir) || $targetCsvDir === '') {
+        $targetCsvDir = di_resolve_csv_source_dir();
+    }
+    if ($tables === null) {
+        $tables = list_tables();
+    }
     if (!is_dir($targetCsvDir)) {
         @mkdir($targetCsvDir, 0755, true);
     }

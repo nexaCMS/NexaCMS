@@ -49,10 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && di_verify_csrf()) {
     $op = $_POST['db_op'] ?? '';
     try {
         if ($op === 'export_csv') {
-            $stats = di_export_active_db_to_csv(null, true);
+            $stats = di_export_active_db_to_csv();
             $_SESSION['success'] = 'Exported ' . count($stats) . ' tables (' . array_sum($stats) . ' total rows) to CSV.';
         } elseif ($op === 'import_csv') {
-            $stats = di_migrate_csv_to_active_db(null, true);
+            $stats = di_migrate_csv_to_active_db();
             $_SESSION['success'] = 'Imported ' . count($stats) . ' CSV tables (' . array_sum($stats) . ' total rows) into active driver.';
         } elseif ($op === 'switch_driver') {
             $newType = strtolower(trim((string) ($_POST['db_type'] ?? 'csv')));
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && di_verify_csrf()) {
             }
             // Snapshot current data into CSV before switching so auto-migration populates the target driver
             if (($GLOBALS['di_db_driver'] ?? 'csv') !== 'csv') {
-                di_export_active_db_to_csv(null, true);
+                di_export_active_db_to_csv();
             }
             $newCfg = $config;
             $newCfg['database']['type'] = $newType;

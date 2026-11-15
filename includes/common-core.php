@@ -3247,6 +3247,35 @@ function upload(string $type = 'plugin', ?string $destParent = null): void {
         echo errorMessage('Invalid upload target.');
         return;
     }
+    // Server-side (network-approval) installs arrive with a local file and
+    // are pre-reviewed by an admin, so they skip the overwrite warning.
+    $calledWithLocalFile = !empty($GLOBALS['nexa_package_local_file']);
+
+    // "Package already exists" confirmation round-trip: the first upload
+    // stashes the zip under content/temp_uploads/pending-<token>.zip and
+    // asks; this branch resumes (or cancels) that staged upload.
+    $pkgAction = (string) ($_POST['nexa_pkg_action'] ?? '');
+    if ($pkgAction === 'confirm_replace' || $pkgAction === 'cancel_replace') {
+        $root0 = rtrim((string) ($include_dir ?? dirname(__DIR__)), '/\\');
+        $tempDir0 = $root0 . '/content/temp_uploads';
+        $token = preg_replace('/[^a-f0-9]/', '', (string) ($_POST['nexa_pkg_token'] ?? ''));
+        $stageZip = $tempDir0 . '/pending-' . $token . '.zip';
+        $stageMetaFile = $tempDir0 . '/pending-' . $token . '.json';
+        if ($pkgAction === 'cancel_replace') {
+            @unlink($stageZip); @unlink($stageMetaFile);
+            echo '<div class="alert alert-info">Upload cancelled &mdash; the existing ' . esc_html($type) . ' was left untouched.</div>';
+            return;
+        }
+        $meta = is_file($stageMetaFile) ? json_decode((string) file_get_contents($stageMetaFile), true) : null;
+        if (!is_array($meta) || (string) ($meta['type'] ?? '') !== $type || !is_file($stageZip)) {
+            echo errorMessage('That upload confirmation has expired. Please choose the .zip file again.');
+            return;
+        }
+        $GLOBALS['nexa_package_replace_confirmed'] = true;
+        $GLOBALS['nexa_package_local_file'] = true; // staged zip is already on disk
+        $_FILES[$type] = ['tmp_name' => $stageZip, 'name' => (string) ($meta['orig'] ?? ($type . '.zip')), 'type' => 'application/zip', 'size' => (int) filesize($stageZip), 'error' => 0];
+        @unlink($stageMetaFile);
+    }
     $field = isset($_FILES[$type]) ? $type : (isset($_FILES['pluginzip']) ? 'pluginzip' : $type);
     $localFile = !empty($GLOBALS['nexa_package_local_file']) && !empty($_FILES[$field]['tmp_name']) && is_file((string) $_FILES[$field]['tmp_name']);
     if (empty($_FILES[$field]['tmp_name']) || (!$localFile && !is_uploaded_file($_FILES[$field]['tmp_name']))) {
@@ -3289,7 +3318,8 @@ function upload(string $type = 'plugin', ?string $destParent = null): void {
     @mkdir($extractDir, 0755, true);
     $zip->extractTo($extractDir);
     $zip->close();
-    @unlink($zipPath);
+    // NOTE: $zipPath is kept for now - it may be staged for an
+    // "already exists" confirmation; it is unlinked on every exit below.
 
     $entries = array_values(array_diff(scandir($extractDir) ?: [], ['.', '..']));
     $wrapped = (count($entries) === 1 && is_dir($extractDir . '/' . $entries[0])) ? $entries[0] : null;
@@ -3303,11 +3333,43 @@ function upload(string $type = 'plugin', ?string $destParent = null): void {
     $invalid = nexa_validate_package($type, $sourceDir);
     if ($invalid !== null) {
         nexa_remove_dir($extractDir);
+        @unlink($zipPath);
         echo errorMessage($invalid . ' Nothing was installed.');
         return;
     }
 
-    recurse_copy($sourceDir, $destParent . '/' . $slug);
+    // Already-exists warning: never silently overwrite an installed
+    // plugin/theme. Stage the zip and ask the admin first; the staged
+    // upload resumes through the confirmation branch at the top.
+    $destDir = $destParent . '/' . $slug;
+    if (is_dir($destDir) && empty($GLOBALS['nexa_package_replace_confirmed']) && !$calledWithLocalFile) {
+        foreach (glob($tempDir . '/pending-*.zip') ?: [] as $stale) {
+            if (filemtime($stale) < time() - 3600) { @unlink($stale); @unlink(substr($stale, 0, -4) . '.json'); }
+        }
+        $token = bin2hex(random_bytes(8));
+        @rename($zipPath, $tempDir . '/pending-' . $token . '.zip');
+        @file_put_contents($tempDir . '/pending-' . $token . '.json', json_encode(['type' => $type, 'slug' => $slug, 'orig' => $origName, 'created' => time()]));
+        $metaFn = $type === 'plugin' ? 'di_read_plugin_manifest' : 'nexa_read_theme_manifest';
+        $exMeta = $metaFn($destDir, $slug);
+        $newMeta = $metaFn($sourceDir, $slug);
+        $exV = trim((string) ($exMeta['version'] ?? '')) ?: 'unknown version';
+        $newV = trim((string) ($newMeta['version'] ?? '')) ?: 'unknown version';
+        $rel = ($exV !== 'unknown version' && $newV !== 'unknown version') ? version_compare($newV, $exV) : 0;
+        $relText = $rel < 0 ? ' <strong>The uploaded package is OLDER than what is installed.</strong>'
+            : ($rel === 0 && $exV === $newV ? ' It is the <strong>same version</strong>.' : '');
+        echo '<div class="alert alert-warning"><h4 style="margin-top:0"><i class="fa fa-exclamation-triangle"></i> This ' . esc_html($type) . ' is already installed</h4>'
+            . '<p>A ' . esc_html($type) . ' named <strong>' . esc_html((string) ($exMeta['name'] ?? $slug)) . '</strong> (<code>' . esc_html($slug) . '</code>, version <strong>' . esc_html($exV) . '</strong>) already exists. '
+            . 'The uploaded package is version <strong>' . esc_html($newV) . '</strong>.' . $relText . '<br>'
+            . 'Replacing overwrites the package files in place (settings and data stored outside the package folder are kept). Nothing has been installed yet.</p>'
+            . '<form method="post">' . di_csrf_field() . '<input type="hidden" name="nexa_pkg_token" value="' . esc_attr($token) . '">'
+            . '<button type="submit" name="nexa_pkg_action" value="cancel_replace" class="btn btn-default">Cancel &mdash; keep existing</button> '
+            . '<button type="submit" name="nexa_pkg_action" value="confirm_replace" class="btn btn-danger">Replace existing ' . esc_html($type) . '</button></form></div>';
+        nexa_remove_dir($extractDir);
+        return;
+    }
+
+    @unlink($zipPath);
+    recurse_copy($sourceDir, $destDir);
     $label = nexa_package_label($type, $sourceDir, $slug);
     nexa_remove_dir($extractDir);
     $destRel = str_starts_with($destParent, $root . '/') ? substr($destParent, strlen($root) + 1) : $destParent;

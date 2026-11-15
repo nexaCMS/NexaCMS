@@ -34,7 +34,7 @@ require $root . '/includes/version.php';
 $version = defined('NEXACMS_VERSION') ? NEXACMS_VERSION : '1.0.0';
 $dist = $root . '/dist';
 @mkdir($dist, 0755, true);
-$notes = 'NexaCMS ' . $version . ': Official update source and packages store. Fresh installs now come with the official GitHub release source pre-filled in System Update and the official packages repository (nexaCMS/nexacms-packages: all 36 plugins + 7 themes, SHA-256 verified) pre-registered under Plugins > Repositories - both clearly labelled and removable, and nothing is contacted until an admin opens those screens and clicks. Existing installs that never changed these settings get the same defaults; any saved choice is respected.';
+$notes = 'NexaCMS ' . $version . ': Database Engine fix (Snapshot to CSV / Import CSV / driver switching failed with a TypeError on file-based and SQL drivers alike - the migrator now accepts all-tables/default-dir) and an upload overwrite warning: installing a plugin/theme zip that is already installed now shows installed vs uploaded versions and asks before replacing anything.';
 
 $excluded = static function (string $rel): bool {
     $rel = str_replace('\\', '/', $rel);
