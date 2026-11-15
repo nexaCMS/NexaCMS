@@ -306,7 +306,13 @@ the origin rule above: installing from the main site installs the shared
 copy; installing from a subsite installs that site's own copy and
 respects its upload policy (denied, or queued for network approval).
 
-**Serving** — install/activate the **Nexa Repository Hub** plugin
+**Serving** — install/activate the **Nexa Repository Hub** plugin. Its admin
+page (**Repository Hub**) is the repo manager: **Upload & Publish** takes a
+plugin/theme zip, installs it shared and publishes it in one step (re-uploads
+use the overwrite confirmation and then serve the new version instantly);
+untick a package to unpublish it.
+
+**Serving (how it works)** — the **Nexa Repository Hub** plugin
 (`nexa-repo-hub`, also available as a standalone zip in `plugin-zips/`).
 Its admin screen (Repository Hub) lets you tick which of the site's
 *shared* plugins/themes to publish and set a display name. It serves

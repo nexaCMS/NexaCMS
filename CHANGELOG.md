@@ -4,6 +4,18 @@ All notable changes to NexaCMS. Versions follow the in-product version
 (`includes/version.php`); update packages state their base version in
 `update.json`.
 
+## 1.33.4 - Manage your repository from inside the site (Hub 1.2.0)
+
+- **Repository Hub - Upload & Publish:** the hub site's admin now has
+  an Upload & Publish box. Drop in a plugin or theme .zip and it is
+  detected, installed into the shared folder, and published to your
+  repository in the same step - the live-generated index serves it
+  immediately. Re-uploading a newer version goes through the standard
+  overwrite warning; once confirmed, every consumer site sees the new
+  version flagged as an update. Untick to unpublish, as before.
+  Repository hosting is managed from the main site (subsites see a
+  pointer there).
+
 ## 1.33.3 - Repository search & package thumbnails
 
 - **Repositories page:** search box filtering packages by name, slug,

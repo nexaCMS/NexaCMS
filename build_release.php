@@ -34,7 +34,7 @@ require $root . '/includes/version.php';
 $version = defined('NEXACMS_VERSION') ? NEXACMS_VERSION : '1.0.0';
 $dist = $root . '/dist';
 @mkdir($dist, 0755, true);
-$notes = 'NexaCMS ' . $version . ': Repository search and package thumbnails. The Plugins > Repositories browser gains a keyword search (name/slug/author/description, combinable with the Plugins/Themes tabs) and artwork for every package - the repo index supports an optional thumbnail/icon/screenshot URL, Repository Hub 1.1.0 serves package images, and the official catalog ships thumbnails for all 45 packages.';
+$notes = 'NexaCMS ' . $version . ': Repository Hub 1.2.0 - manage your repository from inside the site. Upload & Publish on the Repository Hub page installs a plugin/theme zip (auto-detected) into the shared folder and publishes it to your repository in one step; re-uploads flow through the overwrite confirmation and go live immediately as updates for every consumer site.';
 
 $excluded = static function (string $rel): bool {
     $rel = str_replace('\\', '/', $rel);
