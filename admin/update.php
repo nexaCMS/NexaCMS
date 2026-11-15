@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && nexa_verify_csrf()) {
             $messages[] = ['danger', 'URL must start with http:// or https://'];
         }
     } elseif ($do === 'check_remote') {
-        $url = trim((string) get_setting('update_remote_url', ''));
+        $url = trim((string) nexa_update_remote_url());
         if ($url === '') {
             $messages[] = ['danger', 'Save a remote updat.zip URL first.'];
         } else {
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && nexa_verify_csrf()) {
             }
         }
     } elseif ($do === 'download_remote') {
-        $url = trim((string) get_setting('update_remote_url', ''));
+        $url = trim((string) nexa_update_remote_url());
         if ($url === '') {
             $messages[] = ['danger', 'Save a remote updat.zip URL first.'];
         } else {
@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && nexa_verify_csrf()) {
 }
 
 $rootInfo = is_file($rootZip) ? nexa_update_inspect($rootZip) : null;
-$remoteUrl = (string) get_setting('update_remote_url', '');
+$remoteUrl = (string) nexa_update_remote_url();
 
 // Backup inventory (pre-update backups + archived applied packages)
 $bkRoot = $rootDir . '/content/backup';
@@ -191,7 +191,7 @@ include_once __DIR__ . '/includes/header.php';
     </div>
     <div class="col-md-4">
       <div class="panel panel-default">
-        <div class="panel-heading"><strong>3 — Remote URL (GitHub later)</strong></div>
+        <div class="panel-heading"><strong>3 — Remote URL (official GitHub releases)</strong></div>
         <div class="panel-body">
           <form method="post"><?= nexa_csrf_field() ?>
             <div class="form-group"><input name="update_remote_url" class="form-control" value="<?= esc_attr($remoteUrl) ?>" placeholder="https://github.com/you/nexacms/releases/latest/download/updat.zip"></div>
@@ -199,7 +199,7 @@ include_once __DIR__ . '/includes/header.php';
             <button name="do" value="check_remote" class="btn btn-info">Check Remote Version</button>
             <button name="do" value="download_remote" class="btn btn-primary">Download updat.zip &amp; Inspect</button>
           </form>
-          <p class="text-muted">“Check” peeks at <code>update.json</code> next to the zip (publish both in a GitHub release). Download stores it as the root <code>updat.zip</code> — then apply with button 1. Nothing installs itself without your click.</p>
+          <p class="text-muted">On new installs this is pre-filled with the <strong>official NexaCMS release source</strong> (GitHub). Change or clear it any time and Save URL — your choice persists. “Check” peeks at <code>update.json</code> next to the zip; Download fetches <code>updat.zip</code> and verifies it against the published <code>SHA256SUMS</code>. Nothing is contacted or installed without your click.</p>
         </div>
       </div>
     </div>

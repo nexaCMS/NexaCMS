@@ -4,6 +4,21 @@ All notable changes to NexaCMS. Versions follow the in-product version
 (`includes/version.php`); update packages state their base version in
 `update.json`.
 
+## 1.33.1 - Official update source & packages store
+
+- **Pre-wired official sources (removable):** fresh installs come with
+  the official GitHub release source pre-filled in System Update
+  (`nexa_update_remote_url()`) and the official packages repository
+  ("NexaCMS Official Packages", `nexaCMS/nexacms-packages`)
+  pre-registered under Plugins - Repositories, labelled "official".
+  Saving any change (including clearing/removing them) makes the
+  configuration fully user-managed; subsites keep a clean slate.
+  NexaCMS contacts these only when an admin opens System Update /
+  Repositories and clicks - nothing phones home in the background.
+- Official catalog launched: `nexa-repo.json` with all 36 bundled
+  plugins + 7 themes, each as an installable zip with a SHA-256 that
+  the installer verifies before installing.
+
 ## 1.33.0 — First public release (GPL-3.0)
 
 - LICENSE (GPL-3.0), rewritten README, this changelog, SECURITY.md,

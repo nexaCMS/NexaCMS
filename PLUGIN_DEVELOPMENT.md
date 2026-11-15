@@ -277,7 +277,7 @@ Any site can install plugins/themes from remote **repositories** — and
 any NexaCMS site can *become* one. Nothing is built in or phoned home:
 admins add the repositories they trust themselves.
 
-**Consuming** — Admin → Plugins → Repositories → Add:
+**Consuming** — Admin → Plugins → Repositories. Fresh installs pre-register the official catalog (`nexaCMS/nexacms-packages`, labelled "official", removable; any saved change makes the list fully user-managed, and subsites start clean). Add more via:
 
 - *NexaCMS hub site*: the base URL of a site running the Repository Hub
   plugin; its index is read from `?nexa_repo=1` on that site.

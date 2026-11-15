@@ -25,7 +25,7 @@ Choose/change the storage driver in `config.php` (`$config['database']['type']`)
 ## Highlights
 
 - **Content & themes** — posts/pages, menus, a built-in WYSIWYG or TinyMCE, 7 bundled themes, live theme customizer, per-theme settings
-- **Plugins** — 36 bundled (shop with shipping zones, downloads, comments, newsletter, gallery, SEO, cache, security hardening, SMTP with mail log, a user dashboard, a repository hub, and more), installable from zip uploads or remote **repositories** (any NexaCMS site can be a package hub — nothing phones home)
+- **Plugins** — 36 bundled (shop with shipping zones, downloads, comments, newsletter, gallery, SEO, cache, security hardening, SMTP with mail log, a user dashboard, a repository hub, and more), installable from zip uploads or remote **repositories** — the official catalog (`nexaCMS/nexacms-packages`, all bundled plugins & themes) is pre-registered on fresh installs and installs are SHA-256 verified; any NexaCMS site can also be a package hub
 - **Multisite** — path/host subsites with shared or per-site databases, per-site plugins/themes for subsite-*uploaded* packages (everything else is shared), upload approval workflows, per-site settings (including password & session policy)
 - **Account security** — admin-configurable password policy (Settings → Password Policy), forced password upgrade at sign-in when the policy tightens, emailed single-use reset links, idle auto-logoff with per-user settings (Settings → Sessions & Login), brute-force lockout, and a generic MFA/challenge contract so 2FA plugins integrate without forking login (see `PLUGIN_DEVELOPMENT.md` §6A)
 - **Updates** — Admin → System Update applies full or partial zips (local file, root `updat.zip`, or a remote URL) with automatic pre-update backups; remote downloads require HTTPS and are verified against a published `SHA256SUMS` when present
@@ -33,7 +33,7 @@ Choose/change the storage driver in `config.php` (`$config['database']['type']`)
 
 ## Updating
 
-Releases publish `nexacms-<version>.zip` (full), `updat.zip` + `update.json` (update package; partial builds contain only changed files since the stated base version), `nexacms-<version>-minimal.zip` (core + one theme + six basic plugins), and `SHA256SUMS`. Verify downloads with `sha256sum -c SHA256SUMS`. Apply updates in **Admin → System Update** — your `config.php`, database, uploads and backups are always preserved.
+Releases publish `nexacms-<version>.zip` (full), `updat.zip` + `update.json` (update package; partial builds contain only changed files since the stated base version), `nexacms-<version>-minimal.zip` (core + one theme + six basic plugins), and `SHA256SUMS`. Verify downloads with `sha256sum -c SHA256SUMS`. Apply updates in **Admin → System Update** — fresh installs come with the official source (`https://github.com/nexaCMS/NexaCMS/releases/latest/download/updat.zip`) pre-filled (changeable/removable; checks happen only when you click), and your `config.php`, database, uploads and backups are always preserved.
 
 ## nginx
 

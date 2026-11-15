@@ -142,7 +142,7 @@ include_once __DIR__ . '/includes/header.php';
   <?php include __DIR__ . '/includes/flash_messages.php'; ?>
 
   <div class="alert alert-info">
-    Repositories are <strong>added by you</strong> — NexaCMS ships with none and never phones home. A repository can be a <strong>NexaCMS site running the Repository Hub plugin</strong>, a <strong>GitHub repo</strong> with a <code>nexa-repo.json</code> file, or any direct link to a repo index JSON.
+    Fresh installs come with the <strong>official NexaCMS packages repository</strong> pre-configured (labelled <span class="label label-primary">official</span>; remove it below any time — your list is then fully your own). Nothing is contacted until you browse or install from here. You can also add your own: A repository can be a <strong>NexaCMS site running the Repository Hub plugin</strong>, a <strong>GitHub repo</strong> with a <code>nexa-repo.json</code> file, or any direct link to a repo index JSON.
     <?php if ($msSite): ?>Installing from here follows this subsite's rules: packages become <strong>this site's own copy</strong><?= $msPolicy === 'approval' ? ', after network-admin approval' : '' ?><?= $msPolicy === 'deny' ? ' — and installs are currently <strong>disabled</strong> for this subsite' : '' ?>.
     <?php else: ?>Installing from the main site installs the <strong>shared</strong> copy for every site.<?php endif; ?>
   </div>
@@ -154,7 +154,7 @@ include_once __DIR__ . '/includes/header.php';
         <?php foreach ($repos as $i => $r): ?>
           <div style="border-bottom:1px solid #f3f4f6;padding:7px 0;">
             <a href="repositories.php?repo=<?= $i ?>"><strong><?= esc_html($r['name']) ?></strong></a>
-            <span class="label label-default"><?= esc_html($r['type']) ?></span>
+            <span class="label label-default"><?= esc_html($r['type']) ?></span><?php if (!empty($r['official'])): ?> <span class="label label-primary">official</span><?php endif; ?>
             <div class="text-muted" style="font-size:12px;word-break:break-all;"><?= esc_html($r['type'] === 'github' ? ($r['repo'] . ' @ ' . ($r['branch'] ?? 'main')) : $r['url']) ?></div>
             <form method="post" style="margin-top:4px;" onsubmit="return confirm('Remove this repository? Installed packages are unaffected.');">
               <?= di_csrf_field() ?><input type="hidden" name="repo_action" value="delete"><input type="hidden" name="repo_idx" value="<?= $i ?>">

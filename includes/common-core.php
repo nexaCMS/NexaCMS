@@ -3575,6 +3575,27 @@ function nexa_apply_update(string $zipPath, bool $force = false): array {
     return ['ok' => true, 'version' => $info['version'], 'files' => $copied, 'deleted' => $deleted, 'partial' => !empty($info['partial']), 'backed_up' => $backedUp, 'backup' => $backupName, 'notes' => $info['notes']];
 }
 
+/** Official NexaCMS release source (GitHub Releases, latest). */
+function nexa_official_update_url(): string {
+    return 'https://github.com/nexaCMS/NexaCMS/releases/latest/download/updat.zip';
+}
+
+/**
+ * Effective remote-update URL for this site. An explicitly saved URL
+ * always wins (including an explicitly cleared one); when the setting
+ * has never been saved, fresh installs fall back to the official
+ * release source. Nothing is contacted until an admin opens System
+ * Update and clicks Check/Download.
+ */
+function nexa_update_remote_url(): string {
+    global $settings;
+    if (empty($settings)) loadsettings();
+    if (isset($settings['update_remote_url'])) {
+        return trim((string) ($settings['update_remote_url']['value'] ?? ''));
+    }
+    return nexa_official_update_url();
+}
+
 /** Peek at {dir}/update.json next to a remote updat.zip (light check, GitHub-friendly). */
 function nexa_remote_update_manifest(string $zipUrl): ?array {
     $base = substr($zipUrl, 0, strrpos($zipUrl, '/') + 1);
@@ -4275,8 +4296,27 @@ function nexa_is_network_admin(): bool {
  * nothing is pre-registered or phoned home.
  * ========================================================================== */
 
-/** Configured repositories for THIS site (stored as JSON in settings). */
+/** The official NexaCMS packages repository (pre-registered on new installs). */
+function nexa_official_repository(): array {
+    return ['name' => 'NexaCMS Official Packages', 'type' => 'github', 'url' => '', 'repo' => 'nexaCMS/nexacms-packages', 'branch' => 'main', 'official' => true];
+}
+
+/**
+ * Configured repositories for THIS site (stored as JSON in settings).
+ * When repositories have never been configured on the MAIN site, the
+ * official packages repository is pre-registered (it is labelled
+ * "official" and can be removed like any other - saving any change
+ * makes the list fully user-managed from then on). Subsites start
+ * with a clean slate; their admins add repositories explicitly.
+ * Nothing is contacted until an admin opens the Repositories page.
+ */
 function nexa_repositories(): array {
+    global $settings;
+    if (empty($settings)) loadsettings();
+    if (!isset($settings['nexa_repositories'])) {
+        $msSite = function_exists('nexa_current_site') ? nexa_current_site() : null;
+        return $msSite ? [] : [nexa_official_repository()];
+    }
     $raw = (string) get_setting('nexa_repositories', '[]');
     $list = json_decode($raw, true);
     return is_array($list) ? array_values(array_filter($list, 'is_array')) : [];
