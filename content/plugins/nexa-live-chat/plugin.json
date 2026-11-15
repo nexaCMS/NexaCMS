@@ -1,0 +1,14 @@
+{
+  "name": "Nexa Live Chat \u2014 AI/FAQ First Contact, Agent Queue & Capacity",
+  "version": "1.3.0",
+  "author": "NexaCMS",
+  "description": "Persistent site-wide chat bubble. Direct JSON API endpoint, FAQ/systematic or AI first contact, bulk FAQ import (CSV/TSV/JSON/text with followups column), smart suggestions on both ends (visitor starter/follow-up chips from hand-picked, auto-related or AI follow-ups; agent suggested replies that insert for editing), automatic escalation to a human queue, per-agent concurrent-chat capacity, agent console with reply-to-take-over, floating admin alert bubble (badge/sound/desktop alerts), FAQs, history and settings.",
+  "admin_page": "nexa-live-chat",
+  "default_stages": [
+    "pre",
+    "head",
+    "body",
+    "post"
+  ],
+  "category": "Marketing & SEO"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Echo Echo",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Classic demo hook plugin that echoes sample lines into content.",
+  "admin_page": "",
+  "default_stages": [],
+  "category": "Utilities"
+}

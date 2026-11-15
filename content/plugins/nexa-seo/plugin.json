@@ -1,0 +1,12 @@
+{
+  "name": "Nexa SEO \u2014 Meta, OpenGraph & Sitemap",
+  "version": "1.0.2",
+  "author": "NexaCMS",
+  "description": "SEO title/meta, canonical, OpenGraph/Twitter Cards and XML sitemap at /sitemap.xml (or ?sitemap=xml).",
+  "admin_page": "nexa-seo",
+  "default_stages": [
+    "pre",
+    "head"
+  ],
+  "category": "Marketing & SEO"
+}

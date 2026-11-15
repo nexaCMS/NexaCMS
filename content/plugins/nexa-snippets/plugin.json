@@ -1,0 +1,12 @@
+{
+  "name": "Nexa Snippets - Header & Footer Code",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "WPCode style: safely insert analytics/custom code into head, body or footer without editing theme files.",
+  "admin_page": "nexa-snippets",
+  "default_stages": [
+    "head",
+    "post"
+  ],
+  "category": "Utilities"
+}

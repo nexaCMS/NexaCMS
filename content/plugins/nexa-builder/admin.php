@@ -1,0 +1,12 @@
+<?php
+/**  Page Builder - Admin UI (hooks the admin hook, as every enabled plugin must). */
+if (empty($GLOBALS['adminarea'])) return;
+add_menu_item('dashboard', ['name'=>'nexa-builder','class'=>(($_GET['plugin_page']??'')==='nexa-builder')?'active':'','icon'=>'fa fa-th-large fa-fw','label'=>' Page Builder','link'=>'admin.php?plugin_page=nexa-builder'], 51);
+add_action('nexa_admin','nexa_builder_admin_render'); add_action('di_admin','nexa_builder_admin_render'); add_action('up_admin','nexa_builder_admin_render');
+function nexa_builder_admin_render(): void { static $done=false; if($done) return; if(($_GET['plugin_page']??'')!=='nexa-builder') return; $done=true;
+    nexa_builder_ensure();
+    if(($_SERVER['REQUEST_METHOD']??'')==='POST' && nexa_verify_csrf()){ if(($_POST['do']??'')==='del') query("DELETE FROM builder_blocks WHERE id=?",[(int)$_POST['id']]); else query("INSERT INTO builder_blocks (page,btype,content,sort,created_at) VALUES (?,?,?,?,?)",[trim((string)$_POST['page'])?:'home',(string)$_POST['btype'],(string)$_POST['content'],(int)$_POST['sort'],date('Y-m-d H:i:s')]); echo '<div class="alert alert-success">Builder updated.</div>'; }
+    echo '<h2><i class="fa fa-th-large"></i> Page Builder</h2><p>Build a section, then place <code>[builder page="home"]</code> (use your page key) in any post.</p><form method="post" class="form-inline">'.nexa_csrf_field().'<input name="page" class="form-control" value="home" title="Page key"> <select name="btype" class="form-control"><option>heading</option><option>text</option><option>image</option><option>button</option><option>divider</option></select> <input name="content" class="form-control" placeholder="Content (button: Label|URL, image: URL)" style="min-width:280px"> <input name="sort" type="number" class="form-control" value="0" style="width:80px"> <button class="btn btn-primary">Add Block</button></form><hr><table class="table table-striped"><thead><tr><th>Page</th><th>Type</th><th>Content</th><th>Sort</th><th></th></tr></thead><tbody>';
+    foreach(query("SELECT * FROM builder_blocks ORDER BY page ASC, sort ASC, id ASC") as $r) echo '<tr><td>'.esc_html($r['page']).'</td><td>'.esc_html($r['btype']).'</td><td>'.esc_html(mb_substr((string)$r['content'],0,90)).'</td><td>'.esc_html($r['sort']).'</td><td><form method="post">'.nexa_csrf_field().'<input type="hidden" name="id" value="'.(int)$r['id'].'"><button name="do" value="del" class="btn btn-xs btn-danger">Delete</button></form></td></tr>';
+    echo '</tbody></table>'; }
+

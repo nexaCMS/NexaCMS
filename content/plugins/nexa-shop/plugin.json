@@ -1,0 +1,13 @@
+{
+  "name": "Nexa Shop — Store, Cart, Checkout & Orders",
+  "version": "2.1.0",
+  "author": "NexaCMS",
+  "description": "Full WooCommerce-style store: catalog with categories/search/sort, product pages, coupons, cart, shipping zones with flat/weight-based/free/pickup rates per country, checkout (COD, bank transfer, PayPal, Stripe), orders with stock control, customer My Account with downloads — plus a setup wizard that creates the store pages and collects your store details.",
+  "admin_page": "nexa-shop",
+  "default_stages": [
+    "pre",
+    "head",
+    "body"
+  ],
+  "category": "Commerce"
+}

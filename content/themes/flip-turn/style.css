@@ -1,0 +1,60 @@
+/*
+Theme Name: Flip Turn
+Description: Light portfolio-style theme (rebuilt self-contained in v1.5.0 - no external/template assets; own style.css, dynamic NexaCMS menu, posts and comments).
+Version: 2.0.0
+*/
+*{box-sizing:border-box}
+body{margin:0;font-family:'Segoe UI',system-ui,Roboto,Helvetica,Arial,sans-serif;background:#f4f8fb;color:#2b3a46;line-height:1.65}
+a{color:#0284c7}
+.ft-wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.ft-navbar{background:#fff;border-bottom:3px solid #a7ddff;position:sticky;top:0;z-index:50;box-shadow:0 2px 10px rgba(2,132,199,.12)}
+.ft-navbar-in{display:flex;align-items:center;gap:18px;min-height:64px}
+.ft-brand{font-size:26px;font-weight:800;color:#0369a1!important;text-decoration:none;letter-spacing:.4px;white-space:nowrap}
+.ft-toggle{display:none;margin-left:auto;background:#fff;border:1px solid #bae6fd;color:#0369a1;border-radius:6px;font-size:19px;padding:4px 12px;cursor:pointer}
+.ft-navwrap{margin-left:auto}
+.ft-menu{display:flex;gap:4px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.ft-menu li a{display:block;padding:10px 16px;color:#2b3a46!important;text-decoration:none;font-weight:600;border-radius:6px}
+.ft-menu li a:hover{background:#a7ddff}
+.ft-menu li.active a{background:#0284c7;color:#fff!important}
+.ft-hero{text-align:center;padding:42px 18px 10px}
+.ft-hero h1{margin:0 0 6px;font-size:36px;color:#0c4a6e}
+.ft-hero h2{margin:0;font-size:17px;font-weight:400;color:#62808f}
+.ft-grid{display:grid;grid-template-columns:1fr 320px;gap:26px;margin:24px 0 42px}
+.ft-page-title{margin:4px 0 18px;font-size:27px;color:#0c4a6e}
+.ft-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ft-card{background:#fff;border:1px solid #dcebf4;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(2,132,199,.08)}
+.ft-card.wide{grid-column:1/-1}
+.ft-thumb{width:100%;height:auto;display:block}
+.ft-card-body{padding:18px 20px}
+.ft-post-title{margin:0 0 6px;font-size:21px}
+.ft-post-title a{color:#12303f;text-decoration:none}
+.ft-post-title a:hover{color:#0284c7}
+.ft-meta{font-size:13px;color:#7d97a5;margin-bottom:9px}
+.ft-entry img{max-width:100%;height:auto}
+.ft-btn{display:inline-block;background:#0284c7;color:#fff!important;padding:8px 18px;border-radius:6px;text-decoration:none;font-weight:600}
+.ft-btn:hover{background:#0369a1}
+.ft-widget{background:#fff;border:1px solid #dcebf4;border-radius:10px;padding:16px 18px;margin-bottom:20px}
+.ft-widget h4{margin:0 0 10px;font-size:16px;color:#0c4a6e}
+.ft-widget ul{list-style:none;margin:0;padding:0}
+.ft-widget li{padding:5px 0;border-bottom:1px dashed #dcebf4}
+.ft-widget li:last-child{border-bottom:0}
+.ft-search{width:100%;padding:9px 12px;border:1px solid #dcebf4;border-radius:8px}
+.ft-sidemenu{list-style:none;margin:0;padding:0}
+.ft-sidemenu li a{text-decoration:none}
+.ft-footer{background:#0c4a6e;color:#d6eefc;margin-top:10px}
+.ft-footer-in{display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px;padding-top:30px;padding-bottom:20px}
+.ft-footmenu{list-style:none;margin:10px 0 0;padding:0}
+.ft-footmenu li{padding:3px 0}
+.ft-footmenu a{color:#d6eefc;text-decoration:none;opacity:.92}
+.ft-footmenu a:hover{opacity:1;text-decoration:underline}
+.ft-copy{text-align:center;font-size:13px;opacity:.8;padding:0 12px 22px}
+@media (max-width:860px){
+  .ft-grid{grid-template-columns:1fr}
+  .ft-cards{grid-template-columns:1fr}
+  .ft-footer-in{grid-template-columns:1fr}
+  .ft-toggle{display:block}
+  .ft-navwrap{display:none;position:absolute;left:0;right:0;top:64px;background:#fff;padding:10px 16px;box-shadow:0 10px 18px rgba(0,0,0,.18)}
+  .ft-navwrap.open{display:block}
+  .ft-menu{flex-direction:column}
+  .ft-navbar-in{position:relative}
+}

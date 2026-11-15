@@ -1,0 +1,11 @@
+{
+  "name": "Nexa Anti-Spam - Spam Shield",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Akismet-style shield: scores comment/contact/form posts in pre (links, banned words, rate) and logs blocked spam.",
+  "admin_page": "nexa-antispam",
+  "default_stages": [
+    "pre"
+  ],
+  "category": "Security & System"
+}

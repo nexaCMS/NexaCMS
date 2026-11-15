@@ -1,0 +1,28 @@
+# BEGIN NexaCMS
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Never serve config or data stores directly
+RewriteRule ^(config\.php|config_\.php)$ - [F,L]
+RewriteRule ^(admin/database|content/backup|content/cache|content/sites)/ - [F,L]
+RewriteRule ^content/uploads/nexa-downloads/ - [F,L]
+
+# Per-subsite admin areas: /<slug>/admin/... and /sites/<slug>/admin/...
+# are served by the real /admin, keeping the subsite URL in the browser.
+# The multisite resolver validates the slug, pins the site context and
+# enforces who may enter; unknown slugs get its 404.
+RewriteRule ^((?:sites/)?[a-z0-9][a-z0-9\-]*)/admin/?$ admin/index.php [L,QSA]
+RewriteRule ^((?:sites/)?[a-z0-9][a-z0-9\-]*)/admin/(.+)$ admin/$2 [L,QSA]
+
+# Pretty permalinks: everything that is not a real file/dir goes to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.php [L]
+
+# Custom error pages (theme template or Admin > Error Pages plugin).
+# If NexaCMS is installed in a subfolder, adjust these paths to match
+# (e.g. /subfolder/index.php?nexa_error=403).
+ErrorDocument 403 /index.php?nexa_error=403
+ErrorDocument 500 /index.php?nexa_error=500
+</IfModule>
+# END NexaCMS

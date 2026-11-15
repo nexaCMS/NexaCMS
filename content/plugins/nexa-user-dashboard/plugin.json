@@ -1,0 +1,11 @@
+{
+  "name": "Nexa User Dashboard",
+  "version": "1.4.0",
+  "author": "NexaCMS",
+  "description": "Front-end member dashboard ([user_dashboard] on a page, auto-created at /dashboard/): members log in, write and manage their own posts, edit their profile and change their password - without ever visiting the admin area.",
+  "admin_page": "nexa-user-dashboard",
+  "default_stages": [
+    "pre"
+  ],
+  "category": "Users"
+}

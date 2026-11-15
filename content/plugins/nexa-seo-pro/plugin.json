@@ -1,0 +1,11 @@
+{
+  "name": "Nexa SEO Pro",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Advanced per-page/post SEO: an SEO panel in the post editor (meta title/description with live counters, focus keyword, canonical URL, robots control, Open Graph and Twitter Card fields) that outputs precise tags and overrides the basic SEO plugin per post.",
+  "admin_page": "nexa-seo-pro",
+  "default_stages": [
+    "head"
+  ],
+  "category": "SEO"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Nexa Site Kit - Google Tools",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Site-Kit style: GA4 tag + Search Console verification in head, traffic snapshot in admin (pairs with Nexa Analytics).",
+  "admin_page": "nexa-sitekit",
+  "default_stages": [
+    "head"
+  ],
+  "category": "Marketing & SEO"
+}

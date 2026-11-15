@@ -1,0 +1,11 @@
+{
+  "name": "Nexa Redirects - 301s & 404 Log",
+  "version": "1.2.0",
+  "author": "NexaCMS",
+  "description": "Redirection style: manage 301/302 redirects in pre and log 404s so you can fix broken links. Redirects can keep selected GET parameters (e.g. theme) across the jump. Rules are per-site: main-site redirects never reroute subsites, and local targets stay inside the current site.",
+  "admin_page": "nexa-redirects",
+  "default_stages": [
+    "pre"
+  ],
+  "category": "Security & System"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Nexa Image Optimizer - Compress Images",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Smush style: scan content/uploads, report oversized images and resize them with GD in one click.",
+  "admin_page": "nexa-image-optimizer",
+  "default_stages": [
+    "head"
+  ],
+  "category": "Security & System"
+}

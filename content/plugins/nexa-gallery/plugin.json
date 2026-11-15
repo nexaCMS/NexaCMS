@@ -1,0 +1,13 @@
+{
+  "name": "Nexa Gallery \u2014 Media Gallery & Lightbox",
+  "version": "1.1.0",
+  "author": "NexaCMS",
+  "description": "Upload/order gallery images and display a responsive grid lightbox with [gallery].",
+  "admin_page": "nexa-gallery",
+  "default_stages": [
+    "head",
+    "body",
+    "post"
+  ],
+  "category": "Content"
+}

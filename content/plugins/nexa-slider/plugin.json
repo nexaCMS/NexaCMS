@@ -1,0 +1,12 @@
+{
+  "name": "Nexa Slider - Hero Slider",
+  "version": "1.1.0",
+  "author": "NexaCMS",
+  "description": "Slider-Revolution lite: [slider] rotating hero from your gallery images (or the theme multi_slider table).",
+  "admin_page": "nexa-slider",
+  "default_stages": [
+    "head",
+    "body"
+  ],
+  "category": "Content"
+}

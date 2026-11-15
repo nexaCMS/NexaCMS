@@ -1,0 +1,13 @@
+{
+  "name": "Nexa Contact \u2014 Contact Form & Inbox",
+  "version": "1.1.0",
+  "author": "NexaCMS",
+  "description": "Frontend [contact_form] with honeypot anti-spam, stored via SQL query() into the Admin Contact Inbox.",
+  "admin_page": "nexa-contact",
+  "default_stages": [
+    "pre",
+    "head",
+    "body"
+  ],
+  "category": "Marketing & SEO"
+}

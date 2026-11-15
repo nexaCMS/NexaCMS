@@ -1,0 +1,7 @@
+/* NexaCMS Admin Theme: Forest */
+body.admin-theme-forest .navbar-default { background:#eef7ee; border-color:#cfe6cf; }
+body.admin-theme-forest .navbar-brand { color:#1b5e20; }
+body.admin-theme-forest .btn-primary { background:#2e7d32; border-color:#256b29; }
+body.admin-theme-forest .sidebar ul li.active a { background:#e0f1e0; }
+body.admin-theme-forest .panel-primary > .panel-heading, body.admin-theme-forest .di-badge-driver { background:#2e7d32; border-color:#256b29; }
+body.admin-theme-forest a { color:#256b29; }

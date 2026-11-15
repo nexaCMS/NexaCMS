@@ -1,0 +1,14 @@
+{
+  "name": "Nexa Downloads — Protected Downloads, Email Gates, Timers, Purchases & Approvals",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Protected tracked downloads: public, logged-in, customer, email-gated and admin-approved access; free-download countdown timers; expiring download limits; purchase verification through Nexa Shop or purchase claims; entitlements, requests, logs and shortcodes.",
+  "admin_page": "nexa-downloads",
+  "default_stages": [
+    "pre",
+    "head",
+    "body",
+    "post"
+  ],
+  "category": "Commerce"
+}

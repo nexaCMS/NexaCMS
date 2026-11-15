@@ -1,0 +1,14 @@
+{
+  "name": "Nexa Error Pages — Custom 404/403/500 & Offline",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Create custom error pages (404, 403, 500) and an offline/maintenance mode from the admin. Used automatically for themes that do not ship their own error templates; themes with 404.php/error.php keep their designs.",
+  "admin_page": "nexa-error-pages",
+  "default_stages": [
+    "pre",
+    "head",
+    "body",
+    "post"
+  ],
+  "category": "Design & Themes"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Nexa Analytics \u2014 Visitor Tracker & Popular Posts",
+  "version": "1.2.0",
+  "author": "NexaCMS",
+  "description": "Pageview/visitor tracking that distinguishes guests from logged-in users and estimates time on site per visit session. [site_hits] and [popular_posts] shortcodes + Admin dashboard.",
+  "admin_page": "nexa-analytics",
+  "default_stages": [
+    "pre",
+    "head"
+  ],
+  "category": "Marketing & SEO"
+}

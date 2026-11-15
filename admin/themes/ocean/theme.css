@@ -1,0 +1,7 @@
+/* NexaCMS Admin Theme: Ocean */
+body.admin-theme-ocean .navbar-default { background:#e8f6f8; border-color:#bfe3e8; }
+body.admin-theme-ocean .navbar-brand { color:#0b5e66; }
+body.admin-theme-ocean .btn-primary { background:#0e7c86; border-color:#0b6a73; }
+body.admin-theme-ocean .sidebar ul li.active a { background:#d9f0f3; }
+body.admin-theme-ocean .panel-primary > .panel-heading, body.admin-theme-ocean .di-badge-driver { background:#0e7c86; border-color:#0b6a73; }
+body.admin-theme-ocean a { color:#0b6a73; }

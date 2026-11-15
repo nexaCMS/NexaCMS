@@ -1,0 +1,12 @@
+{
+  "name": "Nexa Forms - Form Builder",
+  "version": "1.1.0",
+  "author": "NexaCMS",
+  "description": "WPForms/Contact-Form-7 style builder: design forms, embed with [nexa_form id=\"1\"], read submissions in admin.",
+  "admin_page": "nexa-forms",
+  "default_stages": [
+    "pre",
+    "body"
+  ],
+  "category": "Content"
+}

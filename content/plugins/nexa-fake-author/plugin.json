@@ -1,0 +1,11 @@
+{
+  "name": "Nexa Fake Author",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Attribute posts and pages to a pen name that is NOT a real user account - for security (no credentials to attack, real usernames never exposed in bylines or RSS) and for guest contributors. The real author is kept privately for admins and member dashboards.",
+  "admin_page": "nexa-fake-author",
+  "default_stages": [
+    "head"
+  ],
+  "category": "Users"
+}

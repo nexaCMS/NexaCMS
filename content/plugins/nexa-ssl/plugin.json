@@ -1,0 +1,11 @@
+{
+  "name": "Nexa SSL - HTTPS & Security Headers",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Really-Simple-SSL style: force HTTPS (pre redirect) and send browser security headers on every response.",
+  "admin_page": "nexa-ssl",
+  "default_stages": [
+    "pre"
+  ],
+  "category": "Security & System"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Nexa File Manager",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Backend file manager for admins: browse the whole site, upload files, create folders, rename, edit text/code files, download and delete - with path-traversal protection and guarded system files (config.php, database stores).",
+  "admin_page": "nexa-file-manager",
+  "default_stages": [
+    "pre"
+  ],
+  "category": "Tools"
+}

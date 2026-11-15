@@ -1,0 +1,13 @@
+{
+  "name": "Nexa Comments \u2014 Threaded Comments & Moderation",
+  "version": "1.1.0",
+  "author": "NexaCMS",
+  "description": "Clean threaded post comments with honeypot/time-trap anti-spam and Admin moderation.",
+  "admin_page": "nexa-comments",
+  "default_stages": [
+    "pre",
+    "body",
+    "post"
+  ],
+  "category": "Content"
+}

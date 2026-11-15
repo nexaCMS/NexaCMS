@@ -1,0 +1,7 @@
+/* NexaCMS Admin Theme: Midnight Dark */
+body.admin-theme-midnight .navbar-default, body.admin-theme-midnight .sidebar { background:#1c2331; border-color:#12172a; }
+body.admin-theme-midnight .navbar-brand, body.admin-theme-midnight .sidebar ul li a { color:#c9d4e8 !important; }
+body.admin-theme-midnight .sidebar ul li a:hover, body.admin-theme-midnight .sidebar ul li.active a { background:#2a3550; color:#fff !important; }
+body.admin-theme-midnight .btn-primary { background:#46589a; border-color:#46589a; }
+body.admin-theme-midnight .panel-default > .panel-heading { background:#232c42; color:#dbe4f5; border-color:#2c3752; }
+body.admin-theme-midnight .di-badge-driver { background:#46589a; }

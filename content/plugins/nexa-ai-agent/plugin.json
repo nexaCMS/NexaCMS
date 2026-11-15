@@ -1,0 +1,11 @@
+{
+  "name": "Nexa AI Agent - AI API Users",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Create scoped AI API users (keys) with per-key rate limits so an AI can manage the site via JSON API. Master switch: deactivate this plugin.",
+  "admin_page": "nexa-ai-agent",
+  "default_stages": [
+    "pre"
+  ],
+  "category": "Security & System"
+}

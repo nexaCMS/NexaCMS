@@ -1,0 +1,17 @@
+# Local configuration & data (never commit a live install)
+/config.php
+/admin/database/*
+!/admin/database/.gitkeep
+/content/uploads/*
+/content/backup/*
+/content/cache/*
+/content/temp_uploads/*
+/content/sites/*
+/content/network-pending/*
+/content/plugins-*/
+/content/themes-*/
+/plugin-zips/
+/dist/
+/updat.zip
+*.log
+.DS_Store

@@ -1,0 +1,11 @@
+{
+  "name": "Nexa Security \u2014 Login Guard & Audit Log",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Brute-force login rate limiting, IP blocking and an admin audit log.",
+  "admin_page": "nexa-security",
+  "default_stages": [
+    "pre"
+  ],
+  "category": "Security & System"
+}

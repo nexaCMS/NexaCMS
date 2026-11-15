@@ -1,0 +1,1 @@
+{"name":"Nexa Menu Organizer","version":"1.0.0","author":"NexaCMS","description":"Declutters the admin sidebar: groups every plugin's menu into categories (Content, Marketing & SEO, Commerce, Security & System, Utilities).","admin_page":"nexa-menu-organizer","category":"Security & System","default_stages":["head"]}

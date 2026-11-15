@@ -1,0 +1,12 @@
+{
+  "name": "Nexa Cache \u2014 Speed Cache",
+  "version": "1.0.1",
+  "author": "NexaCMS",
+  "description": "Full-page TTL cache in content/cache/ with auto-invalidation on save and Admin purge/stats.",
+  "admin_page": "nexa-cache",
+  "default_stages": [
+    "pre",
+    "post"
+  ],
+  "category": "Security & System"
+}

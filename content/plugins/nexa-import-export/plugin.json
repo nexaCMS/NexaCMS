@@ -1,0 +1,11 @@
+{
+  "name": "Nexa Import / Export \u2014 Posts & Pages",
+  "version": "1.1.0",
+  "author": "NexaCMS",
+  "description": "Export posts and pages as portable JSON, or as a FULL ZIP including every referenced media file (images, audio, video, uploads) with automatic URL rewriting on import. Skip/overwrite/duplicate modes + dry run.",
+  "admin_page": "nexa-import-export",
+  "default_stages": [
+    "pre"
+  ],
+  "category": "Content"
+}

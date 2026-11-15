@@ -1,0 +1,11 @@
+{
+  "name": "Calc Age",
+  "version": "1.1.0",
+  "author": "NexaCMS",
+  "description": "[calc-age day=\"15\" month=\"06\" year=\"1995\"] shortcode that calculates age.",
+  "admin_page": "",
+  "default_stages": [
+    "body"
+  ],
+  "category": "Utilities"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Nexa Duplicate - Clone Posts & Pages",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Yoast Duplicate-Post style: one-click clone of any post/page as a draft.",
+  "admin_page": "nexa-duplicate",
+  "default_stages": [
+    "head"
+  ],
+  "category": "Content"
+}

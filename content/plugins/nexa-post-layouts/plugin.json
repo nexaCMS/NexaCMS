@@ -1,0 +1,14 @@
+{
+  "name": "Nexa Post Layouts — Listing Layouts & Ad Slots",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Create named post-listing layouts: blocks before/after the list, ad or shortcode blocks inserted between posts (after every Nth post), columns per row and card styles. Assign layouts to the blog home, search results, or everywhere.",
+  "admin_page": "nexa-post-layouts",
+  "default_stages": [
+    "pre",
+    "head",
+    "body",
+    "post"
+  ],
+  "category": "Design & Themes"
+}

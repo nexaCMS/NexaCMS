@@ -1,0 +1,12 @@
+{
+  "name": "Nexa Newsletter \u2014 Subscribers & Export",
+  "version": "1.1.0",
+  "author": "NexaCMS",
+  "description": "Newsletter signup [newsletter_form] with token unsubscribe and Admin subscriber CSV export.",
+  "admin_page": "nexa-newsletter",
+  "default_stages": [
+    "pre",
+    "body"
+  ],
+  "category": "Marketing & SEO"
+}

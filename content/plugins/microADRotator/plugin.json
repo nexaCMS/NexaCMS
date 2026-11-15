@@ -1,0 +1,12 @@
+{
+  "name": "Nexa Ad Server - Rotator & Zones",
+  "version": "2.1.0",
+  "author": "NexaCMS",
+  "description": "Full ad server: zones, weighted rotation, schedules, impression/click tracking. [ad zone=\"header\"] or legacy [microAd].",
+  "admin_page": "microADRotator",
+  "category": "Marketing & SEO",
+  "default_stages": [
+    "pre",
+    "body"
+  ]
+}

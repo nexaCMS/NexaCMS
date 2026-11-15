@@ -1,0 +1,11 @@
+{
+  "name": "Nexa Builder - Block Page Builder",
+  "version": "1.1.0",
+  "author": "NexaCMS",
+  "description": "Elementor-style building blocks: [builder page=\"home\"] renders heading/text/image/button blocks you arrange in admin.",
+  "admin_page": "nexa-builder",
+  "default_stages": [
+    "body"
+  ],
+  "category": "Content"
+}

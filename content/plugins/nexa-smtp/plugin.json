@@ -1,0 +1,11 @@
+{
+  "name": "Nexa SMTP - Mail Settings & Log",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "WP-Mail-SMTP style: central from/SMTP settings, test email and a mail log table for other plugins.",
+  "admin_page": "nexa-smtp",
+  "default_stages": [
+    "head"
+  ],
+  "category": "Security & System"
+}
