@@ -4,6 +4,16 @@ All notable changes to NexaCMS. Versions follow the in-product version
 (`includes/version.php`); update packages state their base version in
 `update.json`.
 
+## 1.33.5 - Fix: admin bar leaked to ordinary logged-in users
+
+- **Frontend admin bar is now admins-only, as documented.** The bar
+  (Dashboard / + Post / + Page / Edit This / Plugins) rendered for
+  *every* logged-in account — subscribers, members and shop customers
+  included — because it only checked that a session existed. It now
+  applies the same `super_admin`/`admin` role check used by the
+  theme-preview bar and the other frontend admin affordances. Ordinary
+  users see the plain site; admins keep the bar unchanged.
+
 ## 1.33.4 - Manage your repository from inside the site (Hub 1.2.0)
 
 - **Repository Hub - Upload & Publish:** the hub site's admin now has

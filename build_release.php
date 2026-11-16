@@ -34,7 +34,7 @@ require $root . '/includes/version.php';
 $version = defined('NEXACMS_VERSION') ? NEXACMS_VERSION : '1.0.0';
 $dist = $root . '/dist';
 @mkdir($dist, 0755, true);
-$notes = 'NexaCMS ' . $version . ': Repository Hub 1.2.0 - manage your repository from inside the site. Upload & Publish on the Repository Hub page installs a plugin/theme zip (auto-detected) into the shared folder and publishes it to your repository in one step; re-uploads flow through the overwrite confirmation and go live immediately as updates for every consumer site.';
+$notes = 'NexaCMS ' . $version . ': Fix - the frontend admin bar no longer leaks to ordinary logged-in users. It now requires a super_admin/admin role (the same check as the theme-preview bar); subscribers, members and customers see the plain site while admins keep the bar unchanged.';
 
 $excluded = static function (string $rel): bool {
     $rel = str_replace('\\', '/', $rel);

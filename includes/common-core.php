@@ -3409,6 +3409,10 @@ if (!class_exists('FlxZipArchive')) {
 function nexa_render_admin_bar(): void {
     static $done = false;
     if ($done || !empty($GLOBALS['adminarea']) || !function_exists('is_user_logged_in') || !is_user_logged_in()) return;
+    // Admins only — ordinary logged-in users (subscribers, members, shop
+    // customers...) must never see the admin bar. Same role check as the
+    // theme-preview bar and the other frontend admin affordances.
+    if (!in_array((string) ($_SESSION['admin_type'] ?? ''), ['super_admin', 'admin'], true)) return;
     $done = true;
     $admin = home_url('admin/');
     $name  = (string) ($_SESSION['display-name'] ?? $_SESSION['name'] ?? 'Admin');
