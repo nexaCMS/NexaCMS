@@ -4,6 +4,24 @@ All notable changes to NexaCMS. Versions follow the in-product version
 (`includes/version.php`); update packages state their base version in
 `update.json`.
 
+## 1.33.6 - Backup retention cleanup + tiered admin bar
+
+- **Backup retention & cleanup (new):** Site Backups gains a policy —
+  keep the newest N backups, or only backups newer than N days, or
+  off (manual only). The policy runs automatically whenever a backup
+  is created: a manual Site Backup, a Backups+ archive (plugin 1.1.0),
+  and the safety backup made before every system update — which is
+  where the pile-up used to come from. "Clean Up Now" applies it on
+  demand, and per-file manual delete remains as always. Safety: the
+  newest backup overall is never deleted, so cleanup can never leave
+  a site with zero backups.
+- **Admin bar refined:** after 1.33.5 hid the frontend admin bar from
+  ordinary users entirely, it now shows for **author and above** —
+  everyone with a legitimate reason to visit the dashboard — with
+  links tiered by role: authors get Dashboard / + Post / Edit This,
+  editors add + Page, and Plugins / Admin Theme stay admin-only.
+  Subscribers, members and customers still never see it.
+
 ## 1.33.5 - Fix: admin bar leaked to ordinary logged-in users
 
 - **Frontend admin bar is now admins-only, as documented.** The bar

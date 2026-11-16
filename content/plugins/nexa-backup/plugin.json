@@ -1,8 +1,8 @@
 {
   "name": "Nexa Backup - Backup & Migrate",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "NexaCMS",
-  "description": "UpdraftPlus/All-in-One-Migration style: one-click zip backup of database + content into content/backup.",
+  "description": "UpdraftPlus/All-in-One-Migration style: one-click zip backup of database + content into content/backup, with automatic retention cleanup (keep newest N / newer than N days, policy in Admin -> Site Backups).",
   "admin_page": "nexa-backup",
   "default_stages": [
     "head"

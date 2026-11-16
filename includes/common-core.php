@@ -3403,28 +3403,33 @@ if (!class_exists('FlxZipArchive')) {
 }
 
 /* ==========================================================================
- * 12. ADMIN BAR (frontend toolbar shown only to logged-in admins)
+ * 12. ADMIN BAR (frontend toolbar for author-and-above roles, tiered links)
  * ========================================================================== */
 
 function nexa_render_admin_bar(): void {
     static $done = false;
     if ($done || !empty($GLOBALS['adminarea']) || !function_exists('is_user_logged_in') || !is_user_logged_in()) return;
-    // Admins only — ordinary logged-in users (subscribers, members, shop
-    // customers...) must never see the admin bar. Same role check as the
-    // theme-preview bar and the other frontend admin affordances.
-    if (!in_array((string) ($_SESSION['admin_type'] ?? ''), ['super_admin', 'admin'], true)) return;
+    // Author and above: anyone who can legitimately work in the dashboard
+    // (author/editor/admin/super_admin via the edit_posts capability).
+    // Ordinary accounts (subscribers, members, shop customers...) never see
+    // it — their account home is the frontend My Account area. Links are
+    // tiered by role below: nobody is shown a link they cannot use.
+    if (!function_exists('current_user_can') || !current_user_can('edit_posts')) return;
     $done = true;
-    $admin = home_url('admin/');
-    $name  = (string) ($_SESSION['display-name'] ?? $_SESSION['name'] ?? 'Admin');
-    $pid   = (string) ($_GET['p'] ?? ($GLOBALS['page'] ?? ''));
+    $admin    = home_url('admin/');
+    $name     = (string) ($_SESSION['display-name'] ?? $_SESSION['name'] ?? 'Admin');
+    $pid      = (string) ($_GET['p'] ?? ($GLOBALS['page'] ?? ''));
+    $role     = (string) ($_SESSION['admin_type'] ?? '');
+    $isAdmin  = in_array($role, ['super_admin', 'admin'], true);
+    $canPages = $isAdmin || $role === 'editor';
     echo '<style>#nexa-adminbar{position:fixed;top:0;left:0;right:0;height:36px;background:#1c2331;color:#dbe4f5;z-index:99999;font:13px/36px sans-serif;padding:0 10px}#nexa-adminbar a{color:#dbe4f5;text-decoration:none;margin-right:14px}#nexa-adminbar a:hover{color:#fff}#nexa-adminbar .nx-right{float:right}body{padding-top:36px!important}</style>';
     echo '<div id="nexa-adminbar"><a href="' . esc_url($admin) . '"><strong>&#9670; ' . esc_html(get_bloginfo('name')) . '</strong></a>'
        . '<a href="' . esc_url($admin) . '">Dashboard</a>'
        . '<a href="' . esc_url(home_url('admin/edit_post.php?type=post')) . '">+ Post</a>'
-       . '<a href="' . esc_url(home_url('admin/edit_post.php?type=page')) . '">+ Page</a>'
+       . ($canPages ? '<a href="' . esc_url(home_url('admin/edit_post.php?type=page')) . '">+ Page</a>' : '')
        . ($pid !== '' && is_numeric($pid) ? '<a href="' . esc_url(home_url('admin/edit_post.php?id=' . urlencode($pid))) . '">Edit This</a>' : '')
-       . '<a href="' . esc_url(home_url('admin/plugins.php')) . '">Plugins</a>'
-       . '<a href="' . esc_url(home_url('admin/admin-themes.php')) . '">Admin Theme</a>'
+       . ($isAdmin ? '<a href="' . esc_url(home_url('admin/plugins.php')) . '">Plugins</a>' : '')
+       . ($isAdmin ? '<a href="' . esc_url(home_url('admin/admin-themes.php')) . '">Admin Theme</a>' : '')
        . '<span class="nx-right">' . esc_html($name) . ' &middot; <a href="' . esc_url(home_url('admin/logout.php')) . '">Log Out</a></span></div>';
 }
 add_action('nexa_head', 'nexa_render_admin_bar');
@@ -3627,7 +3632,7 @@ function nexa_apply_update(string $zipPath, bool $force = false): array {
             if (@unlink($dest)) $deleted++;
         }
     }
-    if ($backupOk) { if (is_file($root . '/config.php')) $backup->addFromString('config.php', (string) file_get_contents($root . '/config.php')); $backup->close(); }
+    if ($backupOk) { if (is_file($root . '/config.php')) $backup->addFromString('config.php', (string) file_get_contents($root . '/config.php')); $backup->close(); nexa_prune_backups($backupName); }
     // Cleanup staging + page cache, then refresh plugin/setting discovery
     $cleanup = static function (string $dir) use (&$cleanup): void {
         foreach (scandir($dir) ?: [] as $f) { if ($f === '.' || $f === '..') continue; $p = $dir . '/' . $f; is_dir($p) ? $cleanup($p) : @unlink($p); }
@@ -3639,6 +3644,55 @@ function nexa_apply_update(string $zipPath, bool $force = false): array {
     @file_put_contents($root . '/content/backup/update-log.txt',
         date('Y-m-d H:i:s') . " updated to {$info['version']} ({$copied} files written, {$deleted} deleted" . (!empty($info['partial']) ? ', partial' : '') . ", backup {$backupName})\n", FILE_APPEND);
     return ['ok' => true, 'version' => $info['version'], 'files' => $copied, 'deleted' => $deleted, 'partial' => !empty($info['partial']), 'backed_up' => $backedUp, 'backup' => $backupName, 'notes' => $info['notes']];
+}
+
+/* ==========================================================================
+ * 12b. BACKUP RETENTION — stop content/backup/ growing without bound.
+ * Policy (Admin -> Site Backups): backup_retention_mode = count | days | off
+ * with backup_keep_count / backup_keep_days. Applies to the *.zip archives
+ * directly inside content/backup/ (manual site backups, Backups+ archives
+ * and the updater's pre-update-*.zip safety backups alike). Safety rules:
+ * the newest backup overall is NEVER deleted, and neither is the file a
+ * caller just created — cleanup can never leave a site with zero backups.
+ * Manual per-file delete stays available regardless of policy.
+ * ========================================================================== */
+
+function nexa_backup_retention(): array {
+    $mode = (string) get_setting('backup_retention_mode', 'count');
+    if (!in_array($mode, ['count', 'days', 'off'], true)) $mode = 'count';
+    return [
+        'mode' => $mode,
+        'keep' => max(1, min(100, (int) get_setting('backup_keep_count', '5'))),
+        'days' => max(1, min(3650, (int) get_setting('backup_keep_days', '30'))),
+    ];
+}
+
+/** Backup archives in content/backup/, newest first. */
+function nexa_backup_files(): array {
+    global $config;
+    $dir = rtrim((string) ($config['abs'] ?? dirname(__DIR__)), '/') . '/content/backup';
+    $out = [];
+    foreach (glob($dir . '/*.zip') ?: [] as $f) {
+        $out[] = ['name' => basename($f), 'path' => $f, 'size' => (int) @filesize($f), 'mtime' => (int) @filemtime($f)];
+    }
+    usort($out, static fn($a, $b) => ($b['mtime'] <=> $a['mtime']) ?: strcmp($b['name'], $a['name']));
+    return $out;
+}
+
+function nexa_prune_backups(?string $justCreated = null): array {
+    $policy = nexa_backup_retention();
+    $files  = nexa_backup_files();
+    $result = ['deleted' => [], 'kept' => count($files), 'mode' => $policy['mode']];
+    if ($policy['mode'] === 'off' || count($files) <= 1) return $result;
+    $cutoff = time() - $policy['days'] * 86400;
+    foreach ($files as $i => $f) {
+        if ($i === 0) continue; // newest backup overall: untouchable
+        if ($justCreated !== null && $f['name'] === $justCreated) continue;
+        $drop = $policy['mode'] === 'count' ? $i >= $policy['keep'] : $f['mtime'] < $cutoff;
+        if ($drop && @unlink($f['path'])) $result['deleted'][] = $f['name'];
+    }
+    $result['kept'] = count($files) - count($result['deleted']);
+    return $result;
 }
 
 /** Official NexaCMS release source (GitHub Releases, latest). */

@@ -34,7 +34,7 @@ require $root . '/includes/version.php';
 $version = defined('NEXACMS_VERSION') ? NEXACMS_VERSION : '1.0.0';
 $dist = $root . '/dist';
 @mkdir($dist, 0755, true);
-$notes = 'NexaCMS ' . $version . ': Fix - the frontend admin bar no longer leaks to ordinary logged-in users. It now requires a super_admin/admin role (the same check as the theme-preview bar); subscribers, members and customers see the plain site while admins keep the bar unchanged.';
+$notes = 'NexaCMS ' . $version . ': Backup retention cleanup (keep newest N / newer than N days / manual, enforced automatically on every backup incl. pre-update safety backups, newest backup always protected) plus a tiered frontend admin bar for author-and-above roles. Ordinary users still never see the bar.';
 
 $excluded = static function (string $rel): bool {
     $rel = str_replace('\\', '/', $rel);
