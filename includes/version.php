@@ -4,7 +4,7 @@
  */
 
 if (!defined('NEXACMS_VERSION')) {
-    define('NEXACMS_VERSION', '1.33.6');
+    define('NEXACMS_VERSION', '1.33.7');
 }
 if (!defined('NEXACMS_NAME')) {
     define('NEXACMS_NAME', 'NexaCMS');

@@ -1,0 +1,11 @@
+{
+  "name": "Nexa Health — Site Health & Resource Monitor",
+  "version": "1.0.0",
+  "author": "NexaCMS",
+  "description": "Live site health checks (PHP, extensions, disk, backups, permissions, HTTPS), resource usage (site/database/disk/memory/content) and an hourly snapshot history with trend sparklines. Read-only; admin-only.",
+  "admin_page": "nexa-health",
+  "default_stages": [
+    "pre"
+  ],
+  "category": "Security & System"
+}

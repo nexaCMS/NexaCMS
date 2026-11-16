@@ -4,6 +4,19 @@ All notable changes to NexaCMS. Versions follow the in-product version
 (`includes/version.php`); update packages state their base version in
 `update.json`.
 
+## 1.33.7 - New plugin: Site Health & Resource Monitor
+
+- **Nexa Health (new bundled plugin):** a read-only health and
+  resource dashboard under Admin → Site Health. Fourteen live checks
+  (PHP version and required extensions, free-disk thresholds, latest
+  backup age and retention policy, database web-protection,
+  config.php permissions, HTTPS, display_errors, memory limit, cache
+  size, staged-upload leftovers), a resource panel (site size
+  breakdown, database size per driver, disk usage, memory, content
+  counts), an environment table, and a snapshot history — at most one
+  snapshot per hour during admin activity, with site-size and health
+  trend sparklines. Nothing is changed on the site; it only reports.
+
 ## 1.33.6 - Backup retention cleanup + tiered admin bar
 
 - **Backup retention & cleanup (new):** Site Backups gains a policy —

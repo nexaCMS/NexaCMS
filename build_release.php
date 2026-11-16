@@ -34,7 +34,7 @@ require $root . '/includes/version.php';
 $version = defined('NEXACMS_VERSION') ? NEXACMS_VERSION : '1.0.0';
 $dist = $root . '/dist';
 @mkdir($dist, 0755, true);
-$notes = 'NexaCMS ' . $version . ': Backup retention cleanup (keep newest N / newer than N days / manual, enforced automatically on every backup incl. pre-update safety backups, newest backup always protected) plus a tiered frontend admin bar for author-and-above roles. Ordinary users still never see the bar.';
+$notes = 'NexaCMS ' . $version . ': New bundled plugin Nexa Health - Site Health & Resource Monitor (Admin -> Site Health): 14 live read-only checks, resource usage panels, and an hourly snapshot history with trend sparklines.';
 
 $excluded = static function (string $rel): bool {
     $rel = str_replace('\\', '/', $rel);
